@@ -1,0 +1,661 @@
+/* ==========================================
+   STUDENT RECORDS MANAGEMENT SYSTEM - STYLES
+   ========================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-color: #2c3e50;
+    --secondary-color: #3498db;
+    --success-color: #27ae60;
+    --danger-color: #e74c3c;
+    --warning-color: #f39c12;
+    --light-bg: #ecf0f1;
+    --white: #ffffff;
+    --text-dark: #2c3e50;
+    --text-light: #7f8c8d;
+    --border-color: #bdc3c7;
+    --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+html, body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: var(--text-dark);
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* ==========================================
+   HEADER STYLES
+   ========================================== */
+
+header {
+    background: var(--white);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: var(--shadow-lg);
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+header h1 {
+    color: var(--primary-color);
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
+
+header .subtitle {
+    color: var(--text-light);
+    font-size: 1.1em;
+}
+
+/* ==========================================
+   MAIN CONTENT LAYOUT
+   ========================================== */
+
+.main-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+@media (max-width: 1024px) {
+    .main-content {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ==========================================
+   FORM SECTION STYLES
+   ========================================== */
+
+.form-section {
+    background: var(--white);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: var(--shadow-lg);
+    height: fit-content;
+    max-height: 700px;
+    overflow-y: auto;
+}
+
+.form-section h2 {
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    font-size: 1.5em;
+    border-bottom: 3px solid var(--secondary-color);
+    padding-bottom: 10px;
+}
+
+.student-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* ==========================================
+   FORM GROUP STYLES
+   ========================================== */
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    position: relative;
+}
+
+.form-group label {
+    font-weight: 600;
+    color: var(--text-dark);
+    font-size: 0.95em;
+}
+
+.form-input {
+    padding: 10px 12px;
+    border: 2px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 1em;
+    font-family: inherit;
+    transition: all 0.3s ease;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+.form-input:valid {
+    border-color: var(--success-color);
+}
+
+textarea.form-input {
+    resize: vertical;
+    min-height: 60px;
+}
+
+select.form-input {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232c3e50' stroke-width='2'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 20px;
+    padding-right: 30px;
+}
+
+/* ==========================================
+   FORM VALIDATION STYLES
+   ========================================== */
+
+.form-group.error .form-input {
+    border-color: var(--danger-color);
+    background-color: rgba(231, 76, 60, 0.05);
+}
+
+.error-message {
+    color: var(--danger-color);
+    font-size: 0.85em;
+    font-weight: 500;
+    display: none;
+    margin-top: -3px;
+}
+
+.form-group.error .error-message {
+    display: block;
+}
+
+/* ==========================================
+   FORM STATUS & ACTIONS
+   ========================================== */
+
+.form-status {
+    padding: 10px;
+    border-radius: 4px;
+    margin-top: 10px;
+    text-align: center;
+    font-weight: 600;
+}
+
+.valid-message {
+    background-color: rgba(39, 174, 96, 0.1);
+    color: var(--success-color);
+}
+
+.invalid-message {
+    background-color: rgba(231, 76, 60, 0.1);
+    color: var(--danger-color);
+}
+
+.form-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-color);
+}
+
+/* ==========================================
+   BUTTON STYLES
+   ========================================== */
+
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    font-size: 1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.btn-primary {
+    background-color: var(--secondary-color);
+    color: var(--white);
+    flex: 1;
+}
+
+.btn-primary:hover:not(:disabled) {
+    background-color: #2980b9;
+}
+
+.btn-primary:disabled {
+    background-color: var(--border-color);
+    color: var(--text-light);
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.btn-secondary {
+    background-color: var(--light-bg);
+    color: var(--text-dark);
+    border: 1px solid var(--border-color);
+    flex: 1;
+}
+
+.btn-secondary:hover {
+    background-color: var(--border-color);
+}
+
+.btn-edit {
+    background-color: var(--secondary-color);
+    color: var(--white);
+    padding: 6px 12px;
+    font-size: 0.85em;
+}
+
+.btn-edit:hover {
+    background-color: #2980b9;
+}
+
+.btn-delete {
+    background-color: var(--danger-color);
+    color: var(--white);
+    padding: 6px 12px;
+    font-size: 0.85em;
+}
+
+.btn-delete:hover {
+    background-color: #c0392b;
+}
+
+/* ==========================================
+   LIST SECTION STYLES
+   ========================================== */
+
+.list-section {
+    background: var(--white);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: var(--shadow-lg);
+    grid-column: 1 / -1;
+}
+
+.list-section h2 {
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    font-size: 1.5em;
+    border-bottom: 3px solid var(--secondary-color);
+    padding-bottom: 10px;
+}
+
+/* ==========================================
+   SEARCH & FILTER STYLES
+   ========================================== */
+
+.search-filter {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.search-input,
+.filter-select {
+    padding: 10px 12px;
+    border: 2px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 1em;
+    font-family: inherit;
+    flex: 1;
+    min-width: 200px;
+}
+
+.search-input:focus,
+.filter-select:focus {
+    outline: none;
+    border-color: var(--secondary-color);
+}
+
+.result-count {
+    background: var(--light-bg);
+    padding: 10px 15px;
+    border-radius: 4px;
+    font-weight: 600;
+    color: var(--text-dark);
+    white-space: nowrap;
+}
+
+/* ==========================================
+   TABLE STYLES
+   ========================================== */
+
+.students-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    font-size: 0.95em;
+}
+
+.students-table thead {
+    background-color: var(--primary-color);
+    color: var(--white);
+}
+
+.students-table th {
+    padding: 15px;
+    text-align: left;
+    font-weight: 600;
+    border: 1px solid var(--border-color);
+}
+
+.students-table td {
+    padding: 12px 15px;
+    border: 1px solid var(--border-color);
+}
+
+.student-row {
+    transition: background-color 0.3s ease;
+}
+
+.student-row:hover {
+    background-color: var(--light-bg);
+}
+
+.address-cell {
+    max-width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.actions-cell {
+    display: flex;
+    gap: 5px;
+}
+
+/* ==========================================
+   GPA STYLING
+   ========================================== */
+
+.high-gpa {
+    color: var(--success-color);
+    font-weight: 700;
+    background: rgba(39, 174, 96, 0.1);
+    padding: 3px 6px;
+    border-radius: 3px;
+}
+
+.medium-gpa {
+    color: var(--warning-color);
+    font-weight: 700;
+    background: rgba(243, 156, 18, 0.1);
+    padding: 3px 6px;
+    border-radius: 3px;
+}
+
+.low-gpa {
+    color: var(--danger-color);
+    font-weight: 700;
+    background: rgba(231, 76, 60, 0.1);
+    padding: 3px 6px;
+    border-radius: 3px;
+}
+
+/* ==========================================
+   NO DATA MESSAGE
+   ========================================== */
+
+.no-data {
+    padding: 40px;
+    text-align: center;
+    background-color: var(--light-bg);
+    border-radius: 4px;
+    color: var(--text-light);
+    font-size: 1.1em;
+}
+
+/* ==========================================
+   STATISTICS SECTION STYLES
+   ========================================== */
+
+.stats-section {
+    background: var(--white);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: var(--shadow-lg);
+    grid-column: 1 / -1;
+}
+
+.stats-section h2 {
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    font-size: 1.5em;
+    border-bottom: 3px solid var(--secondary-color);
+    padding-bottom: 10px;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.stat-card {
+    background: linear-gradient(135deg, var(--secondary-color), #667eea);
+    color: var(--white);
+    padding: 25px;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: var(--shadow);
+    transition: transform 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+}
+
+.stat-card h3 {
+    font-size: 0.95em;
+    font-weight: 600;
+    margin-bottom: 10px;
+    opacity: 0.9;
+}
+
+.stat-value {
+    font-size: 2.2em;
+    font-weight: 700;
+}
+
+/* ==========================================
+   NOTIFICATION STYLES
+   ========================================== */
+
+.notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 15px 20px;
+    border-radius: 4px;
+    box-shadow: var(--shadow-lg);
+    font-weight: 600;
+    animation: slideIn 0.3s ease;
+    max-width: 400px;
+    z-index: 1000;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(400px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.notification-success {
+    background-color: var(--success-color);
+    color: var(--white);
+    border-left: 5px solid rgba(255, 255, 255, 0.5);
+}
+
+.notification-error {
+    background-color: var(--danger-color);
+    color: var(--white);
+    border-left: 5px solid rgba(255, 255, 255, 0.5);
+}
+
+.notification-warning {
+    background-color: var(--warning-color);
+    color: var(--white);
+    border-left: 5px solid rgba(255, 255, 255, 0.5);
+}
+
+/* ==========================================
+   RESPONSIVE DESIGN
+   ========================================== */
+
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 1.8em;
+    }
+
+    .form-section,
+    .list-section,
+    .stats-section {
+        padding: 20px;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+
+    .btn {
+        width: 100%;
+    }
+
+    .search-filter {
+        flex-direction: column;
+    }
+
+    .search-input,
+    .filter-select {
+        width: 100%;
+        min-width: auto;
+    }
+
+    .result-count {
+        width: 100%;
+        text-align: center;
+    }
+
+    .students-table {
+        font-size: 0.85em;
+    }
+
+    .students-table th,
+    .students-table td {
+        padding: 8px 10px;
+    }
+
+    .address-cell {
+        max-width: 100px;
+    }
+
+    .actions-cell {
+        flex-direction: column;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .notification {
+        max-width: 90vw;
+        right: 10px;
+        left: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    html, body {
+        padding: 10px;
+    }
+
+    header {
+        padding: 20px 15px;
+    }
+
+    header h1 {
+        font-size: 1.4em;
+    }
+
+    .main-content {
+        gap: 15px;
+    }
+
+    .form-section,
+    .list-section,
+    .stats-section {
+        padding: 15px;
+        border-radius: 6px;
+    }
+
+    .students-table {
+        font-size: 0.75em;
+    }
+
+    .students-table th,
+    .students-table td {
+        padding: 5px 8px;
+    }
+
+    .btn-edit,
+    .btn-delete {
+        padding: 4px 8px;
+        font-size: 0.75em;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .stat-value {
+        font-size: 1.8em;
+    }
+}
+
+/* ==========================================
+   SCROLLBAR STYLING (Optional)
+   ========================================== */
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--light-bg);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--secondary-color);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #2980b9;
+}

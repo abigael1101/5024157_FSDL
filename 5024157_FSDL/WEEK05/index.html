@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JetSet Budget Tracker</title>
+    <style>
+        :root {
+            --accent: #00f2fe;
+            --bg: #1a1a2e;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: white;
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 450px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .total-box {
+            background: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .input-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr auto;
+            gap: 10px;
+            margin-bottom: 5px;
+        }
+
+        input {
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        button {
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            background: var(--accent);
+            color: #1a1a2e;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .error { color: #ff4d4d; font-size: 0.8rem; margin-bottom: 15px; height: 18px; }
+
+        .expense-item {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 4px solid var(--accent);
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <div class="total-box">
+        <small>Total Travel Spending</small>
+        <h1 id="totalAmount">$0.00</h1>
+    </div>
+
+    <div class="input-row">
+        <input type="text" id="itemInput" placeholder="Item (e.g. Flight)">
+        <input type="number" id="priceInput" placeholder="Price">
+        <button onclick="addExpense()">Add</button>
+    </div>
+    <div id="errorMsg" class="error"></div>
+
+    <div id="expenseList">
+        </div>
+</div>
+
+<script>
+    // 1. CLASS (Expense structure)
+    class Expense {
+        constructor(name, amount) {
+            // STRING Manipulation
+            this.name = name.trim().charAt(0).toUpperCase() + name.trim().slice(1).toLowerCase();
+            // Numbers & Operators
+            this.amount = parseFloat(amount);
+            // DATE
+            this.date = new Date().toLocaleDateString();
+        }
+    }
+
+    // 2. ARRAY (Data storage)
+    let travelExpenses = [];
+
+    // 3. MAIN FUNCTION
+    function addExpense() {
+        const itemName = document.getElementById('itemInput');
+        const itemPrice = document.getElementById('priceInput');
+        const errorBox = document.getElementById('errorMsg');
+
+        // 4. VALIDATION & ERROR HANDLING
+        try {
+            errorBox.innerText = ""; // Reset error
+
+            if (itemName.value === "" || itemPrice.value === "") {
+                throw "Both fields are required!";
+            }
+            if (itemPrice.value <= 0) {
+                throw "Price must be greater than zero!";
+            }
+
+            // 5. OBJECT Creation
+            const newExpense = new Expense(itemName.value, itemPrice.value);
+
+            // 6. ARRAY method (Add to list)
+            travelExpenses.push(newExpense);
+
+            // Reset UI
+            itemName.value = "";
+            itemPrice.value = "";
+            render();
+
+        } catch (err) {
+            errorBox.innerText = "❌ " + err;
+        }
+    }
+
+    // 7. LOOP (Display and Calculate)
+    function render() {
+        const listDisplay = document.getElementById('expenseList');
+        const totalDisplay = document.getElementById('totalAmount');
+        let total = 0; // Running total variable
+
+        listDisplay.innerHTML = "";
+
+        // Loop through the array
+        for (let i = 0; i < travelExpenses.length; i++) {
+            const exp = travelExpenses[i];
+
+            // OPERATOR: Add up the total
+            total += exp.amount;
+
+            // Generate HTML
+            const div = document.createElement('div');
+            div.className = 'expense-item';
+            div.innerHTML = `
+                <div>
+                    <strong>${exp.name}</strong><br>
+                    <small style="opacity: 0.6">${exp.date}</small>
+                </div>
+                <div style="font-weight: bold">$${exp.amount.toFixed(2)}</div>
+            `;
+            listDisplay.appendChild(div);
+        }
+
+        // Display formatted total
+        totalDisplay.innerText = `$${total.toFixed(2)}`;
+    }
+</script>
+
+</body>
+</html>

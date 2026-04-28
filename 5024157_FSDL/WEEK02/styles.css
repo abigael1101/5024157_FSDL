@@ -1,0 +1,157 @@
+/* =====================
+   GLOBAL STYLING
+===================== */
+body {
+  margin: 0;
+  padding: 40px;
+  font-family: "Segoe UI", Tahoma, sans-serif;
+  background-color: #f5f7fb;
+  color: #1f2937;
+}
+
+/* =====================
+   MAIN HEADING
+===================== */
+h1 {
+  text-align: center;
+  color: #2563eb;
+  margin-bottom: 10px;
+}
+
+/* =====================
+   INTRO TEXT
+===================== */
+p {
+  text-align: center;
+  font-size: 16px;
+  margin-bottom: 15px;
+}
+
+/* =====================
+   LINK
+===================== */
+a {
+  display: block;
+  text-align: center;
+  font-weight: 600;
+  color: #2563eb;
+  text-decoration: none;
+  margin-bottom: 20px;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* =====================
+   SEPARATOR
+===================== */
+hr {
+  border: none;
+  height: 1px;
+  background-color: #dbeafe;
+  margin: 35px 0;
+}
+
+/* =====================
+   IMAGE
+===================== */
+img {
+  display: block;
+  margin: 0 auto;
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+}
+
+/* =====================
+   TABLE
+===================== */
+table {
+  margin: 0 auto;
+  width: 60%;
+  border-collapse: collapse;
+  background-color: white;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+
+th {
+  background-color: #2563eb;
+  color: white;
+  padding: 12px;
+}
+
+td {
+  padding: 10px;
+  text-align: center;
+  background-color: #eff6ff;
+}
+
+/* =====================
+   LIST
+===================== */
+ul {
+  width: 200px;
+  margin: 0 auto;
+  padding-left: 20px;
+}
+
+li {
+  padding: 6px 0;
+}
+
+/* =====================
+   FORM
+===================== */
+form {
+  width: 320px;
+  margin: 0 auto;
+  background-color: white;
+  padding: 25px;
+  border-radius: 14px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+input[type="text"],
+input[type="email"] {
+  width: 100%;
+  padding: 10px;
+  margin-top: 6px;
+  border-radius: 8px;
+  border: 1px solid #c7d2fe;
+}
+
+input[type="submit"] {
+  width: 100%;
+  margin-top: 15px;
+  padding: 10px;
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+input[type="submit"]:hover {
+  background-color: #1e40af;
+}
+
+/* =====================
+   IFRAME
+===================== */
+iframe {
+  display: block;
+  margin: 0 auto;
+  border-radius: 10px;
+  border: 1px solid #c7d2fe;
+}
+
+/* =====================
+   MULTIMEDIA
+===================== */
+audio,
+video {
+  display: block;
+  margin: 15px auto;
+  border-radius: 10px;
+}

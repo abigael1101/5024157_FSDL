@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html ng-app="studentApp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Records Management - AngularJS (All-in-One)</title>
+    <style>
+/* ==========================================
+   STUDENT RECORDS MANAGEMENT SYSTEM - STYLES
+   ========================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-color: #2c3e50;
+    --secondary-color: #3498db;
+    --success-color: #27ae60;
+    --danger-color: #e74c3c;
+    --warning-color: #f39c12;
+    --light-bg: #ecf0f1;
+    --white: #ffffff;
+    --text-dark: #2c3e50;
+    --text-light: #7f8c8d;
+    --border-color: #bdc3c7;
+    --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+html, body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: var(--text-dark);
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* ==========================================
+   HEADER STYLES
+   ========================================== */
+
+header {
+    background: var(--white);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: var(--shadow-lg);
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+header h1 {
+    color: var(--primary-color);
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
+
+header .subtitle {
+    color: var(--text-light);
+    font-size: 1.1em;
+}
+
+/* ==========================================
+   MAIN CONTENT LAYOUT
+   ========================================== */
+
+.main-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+@media (max-width: 1024px) {
+    .main-content {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ==========================================
+   FORM SECTION STYLES
+   ========================================== */
+
+.form-section {
+    background: var(--white);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: var(--shadow-lg);
+    height: fit-content;
+    max-height: 700px;
+    overflow-y: auto;
+}
+
+.form-section h2 {
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    font-size: 1.5em;
+    border-bottom: 3px solid var(--secondary-color);
+    padding-bottom: 10px;
+}
+
+.student-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* ==========================================
+   FORM GROUP STYLES
+   ========================================== */
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    position: relative;
+}
+
+.form-group label {
+    font-weight: 600;
+    color: var(--text-dark);
+    font-size: 0.95em;
+}
+
+.form-input {
+    padding: 10px 12px;
+    border: 2px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 1em;
+    font-family: inherit;
+    transition: all 0.3s ease;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+.form-input:valid {
+    border-color: var(--success-color);
+}
+
+textarea.form-input {
+    resize: vertical;
+    min-height: 60px;
+}
+
+select.form-input {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232c3e50' stroke-width='2'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 20px;
+    padding-right: 30px;
+}
+
+/* ==========================================
+   FORM VALIDATION STYLES
+   ========================================== */
+
+.form-group.error .form-input {
+    border-color: var(--danger-color);
+    background-color: rgba(231, 76, 60, 0.05);
+}
+
+.error-message {
+    color: var(--danger-color);
+    font-size: 0.85em;
+    font-weight: 500;
+    display: none;
+    margin-top: -3px;
+}
+
+.form-group.error .error-message {
+    display: block;
+}
+
+/* ==========================================
+   FORM STATUS & ACTIONS
+   ========================================== */
+
+.form-status {
+    padding: 10px;
+    border-radius: 4px;
+    margin-top: 10px;
+    text-align: center;
+    font-weight: 600;
+}
+
+.valid-message {
+    background-color: rgba(39, 174, 96, 0.1);
+    color: var(--success-color);
+}
+
+.invalid-message {
+    background-color: rgba(231, 76, 60, 0.1);
+    color: var(--danger-color);
+}
+
+.form-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-color);
+}
+
+/* ==========================================
+   BUTTON STYLES
+   ========================================== */
+
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    font-size: 1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.btn-primary {
+    background-color: var(--secondary-color);
+    color: var(--white);
+    flex: 1;
+}
+
+.btn-primary:hover:not(:disabled) {
+    background-color: #2980b9;
+}
+
+.btn-primary:disabled {
+    background-color: var(--border-color);
+    color: var(--text-light);
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.btn-secondary {
+    background-color: var(--light-bg);
+    color: var(--text-dark);
+    border: 1px solid var(--border-color);
+    flex: 1;
+}
+
+.btn-secondary:hover {
+    background-color: var(--border-color);
+}
+
+.btn-edit {
+    background-color: var(--secondary-color);
+    color: var(--white);
+    padding: 6px 12px;
+    font-size: 0.85em;
+}
+
+.btn-edit:hover {
+    background-color: #2980b9;
+}
+
+.btn-delete {
+    background-color: var(--danger-color);
+    color: var(--white);
+    padding: 6px 12px;
+    font-size: 0.85em;
+}
+
+.btn-delete:hover {
+    background-color: #c0392b;
+}
+
+/* ==========================================
+   LIST SECTION STYLES
+   ========================================== */
+
+.list-section {
+    background: var(--white);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: var(--shadow-lg);
+    grid-column: 1 / -1;
+}
+
+.list-section h2 {
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    font-size: 1.5em;
+    border-bottom: 3px solid var(--secondary-color);
+    padding-bottom: 10px;
+}
+
+/* ==========================================
+   SEARCH & FILTER STYLES
+   ========================================== */
+
+.search-filter {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.search-input,
+.filter-select {
+    padding: 10px 12px;
+    border: 2px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 1em;
+    font-family: inherit;
+    flex: 1;
+    min-width: 200px;
+}
+
+.search-input:focus,
+.filter-select:focus {
+    outline: none;
+    border-color: var(--secondary-color);
+}
+
+.result-count {
+    background: var(--light-bg);
+    padding: 10px 15px;
+    border-radius: 4px;
+    font-weight: 600;
+    color: var(--text-dark);
+    white-space: nowrap;
+}
+
+/* ==========================================
+   TABLE STYLES
+   ========================================== */
+
+.students-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    font-size: 0.95em;
+}
+
+.students-table thead {
+    background-color: var(--primary-color);
+    color: var(--white);
+}
+
+.students-table th {
+    padding: 15px;
+    text-align: left;
+    font-weight: 600;
+    border: 1px solid var(--border-color);
+}
+
+.students-table td {
+    padding: 12px 15px;
+    border: 1px solid var(--border-color);
+}
+
+.student-row {
+    transition: background-color 0.3s ease;
+}
+
+.student-row:hover {
+    background-color: var(--light-bg);
+}
+
+.address-cell {
+    max-width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.actions-cell {
+    display: flex;
+    gap: 5px;
+}
+
+/* ==========================================
+   GPA STYLING
+   ========================================== */
+
+.high-gpa {
+    color: var(--success-color);
+    font-weight: 700;
+    background: rgba(39, 174, 96, 0.1);
+    padding: 3px 6px;
+    border-radius: 3px;
+}
+
+.medium-gpa {
+    color: var(--warning-color);
+    font-weight: 700;
+    background: rgba(243, 156, 18, 0.1);
+    padding: 3px 6px;
+    border-radius: 3px;
+}
+
+.low-gpa {
+    color: var(--danger-color);
+    font-weight: 700;
+    background: rgba(231, 76, 60, 0.1);
+    padding: 3px 6px;
+    border-radius: 3px;
+}
+
+/* ==========================================
+   NO DATA MESSAGE
+   ========================================== */
+
+.no-data {
+    padding: 40px;
+    text-align: center;
+    background-color: var(--light-bg);
+    border-radius: 4px;
+    color: var(--text-light);
+    font-size: 1.1em;
+}
+
+/* ==========================================
+   STATISTICS SECTION STYLES
+   ========================================== */
+
+.stats-section {
+    background: var(--white);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: var(--shadow-lg);
+    grid-column: 1 / -1;
+}
+
+.stats-section h2 {
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    font-size: 1.5em;
+    border-bottom: 3px solid var(--secondary-color);
+    padding-bottom: 10px;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.stat-card {
+    background: linear-gradient(135deg, var(--secondary-color), #667eea);
+    color: var(--white);
+    padding: 25px;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: var(--shadow);
+    transition: transform 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+}
+
+.stat-card h3 {
+    font-size: 0.95em;
+    font-weight: 600;
+    margin-bottom: 10px;
+    opacity: 0.9;
+}
+
+.stat-value {
+    font-size: 2.2em;
+    font-weight: 700;
+}
+
+/* ==========================================
+   NOTIFICATION STYLES
+   ========================================== */
+
+.notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 15px 20px;
+    border-radius: 4px;
+    box-shadow: var(--shadow-lg);
+    font-weight: 600;
+    animation: slideIn 0.3s ease;
+    max-width: 400px;
+    z-index: 1000;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(400px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.notification-success {
+    background-color: var(--success-color);
+    color: var(--white);
+    border-left: 5px solid rgba(255, 255, 255, 0.5);
+}
+
+.notification-error {
+    background-color: var(--danger-color);
+    color: var(--white);
+    border-left: 5px solid rgba(255, 255, 255, 0.5);
+}
+
+.notification-warning {
+    background-color: var(--warning-color);
+    color: var(--white);
+    border-left: 5px solid rgba(255, 255, 255, 0.5);
+}
+
+/* ==========================================
+   RESPONSIVE DESIGN
+   ========================================== */
+
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 1.8em;
+    }
+
+    .form-section,
+    .list-section,
+    .stats-section {
+        padding: 20px;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+
+    .btn {
+        width: 100%;
+    }
+
+    .search-filter {
+        flex-direction: column;
+    }
+
+    .search-input,
+    .filter-select {
+        width: 100%;
+        min-width: auto;
+    }
+
+    .result-count {
+        width: 100%;
+        text-align: center;
+    }
+
+    .students-table {
+        font-size: 0.85em;
+    }
+
+    .students-table th,
+    .students-table td {
+        padding: 8px 10px;
+    }
+
+    .address-cell {
+        max-width: 100px;
+    }
+
+    .actions-cell {
+        flex-direction: column;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .notification {
+        max-width: 90vw;
+        right: 10px;
+        left: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    html, body {
+        padding: 10px;
+    }
+
+    header {
+        padding: 20px 15px;
+    }
+
+    header h1 {
+        font-size: 1.4em;
+    }
+
+    .main-content {
+        gap: 15px;
+    }
+
+    .form-section,
+    .list-section,
+    .stats-section {
+        padding: 15px;
+        border-radius: 6px;
+    }
+
+    .students-table {
+        font-size: 0.75em;
+    }
+
+    .students-table th,
+    .students-table td {
+        padding: 5px 8px;
+    }
+
+    .btn-edit,
+    .btn-delete {
+        padding: 4px 8px;
+        font-size: 0.75em;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .stat-value {
+        font-size: 1.8em;
+    }
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--light-bg);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--secondary-color);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #2980b9;
+}
+    </style>
+</head>
+<body ng-controller="StudentController" class="container">
+    <header>
+        <h1>📚 Student Records Management System</h1>
+        <p class="subtitle">Complete Application - All Code in One File</p>
+    </header>
+
+    <div class="main-content">
+        <!-- FORM SECTION -->
+        <div class="form-section">
+            <h2>Add New Student</h2>
+            <form name="studentForm" class="student-form" ng-submit="addStudent()" novalidate>
+
+                <!-- Roll Number Field -->
+                <div class="form-group" ng-class="{'error': studentForm.rollNo.$invalid && studentForm.rollNo.$touched}">
+                    <label for="rollNo">Roll Number:</label>
+                    <input type="number" id="rollNo" name="rollNo" ng-model="newStudent.rollNo"
+                        placeholder="Enter roll number" required min="1" class="form-input">
+                    <span class="error-message" ng-show="studentForm.rollNo.$error.required && studentForm.rollNo.$touched">
+                        Roll number is required
+                    </span>
+                    <span class="error-message" ng-show="studentForm.rollNo.$error.min && studentForm.rollNo.$touched">
+                        Roll number must be greater than 0
+                    </span>
+                </div>
+
+                <!-- Name Field -->
+                <div class="form-group" ng-class="{'error': studentForm.name.$invalid && studentForm.name.$touched}">
+                    <label for="name">Full Name:</label>
+                    <input type="text" id="name" name="name" ng-model="newStudent.name"
+                        placeholder="Enter full name" required minlength="3" maxlength="50" class="form-input">
+                    <span class="error-message" ng-show="studentForm.name.$error.required && studentForm.name.$touched">
+                        Name is required
+                    </span>
+                    <span class="error-message" ng-show="studentForm.name.$error.minlength && studentForm.name.$touched">
+                        Name must be at least 3 characters
+                    </span>
+                    <span class="error-message" ng-show="studentForm.name.$error.maxlength && studentForm.name.$touched">
+                        Name cannot exceed 50 characters
+                    </span>
+                </div>
+
+                <!-- Email Field -->
+                <div class="form-group" ng-class="{'error': studentForm.email.$invalid && studentForm.email.$touched}">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" ng-model="newStudent.email"
+                        placeholder="Enter email address" required class="form-input">
+                    <span class="error-message" ng-show="studentForm.email.$error.required && studentForm.email.$touched">
+                        Email is required
+                    </span>
+                    <span class="error-message" ng-show="studentForm.email.$error.email && studentForm.email.$touched">
+                        Please enter a valid email address
+                    </span>
+                </div>
+
+                <!-- Phone Field -->
+                <div class="form-group" ng-class="{'error': studentForm.phone.$invalid && studentForm.phone.$touched}">
+                    <label for="phone">Phone Number:</label>
+                    <input type="tel" id="phone" name="phone" ng-model="newStudent.phone"
+                        placeholder="Enter phone number" required pattern="^\d{10}$" class="form-input">
+                    <span class="error-message" ng-show="studentForm.phone.$error.required && studentForm.phone.$touched">
+                        Phone number is required
+                    </span>
+                    <span class="error-message" ng-show="studentForm.phone.$error.pattern && studentForm.phone.$touched">
+                        Phone number must be exactly 10 digits
+                    </span>
+                </div>
+
+                <!-- Class Field -->
+                <div class="form-group" ng-class="{'error': studentForm.class.$invalid && studentForm.class.$touched}">
+                    <label for="class">Class:</label>
+                    <select id="class" name="class" ng-model="newStudent.class" required class="form-input">
+                        <option value="">-- Select Class --</option>
+                        <option value="10th">Class 10th</option>
+                        <option value="11th">Class 11th</option>
+                        <option value="12th">Class 12th</option>
+                    </select>
+                    <span class="error-message" ng-show="studentForm.class.$error.required && studentForm.class.$touched">
+                        Class selection is required
+                    </span>
+                </div>
+
+                <!-- GPA Field -->
+                <div class="form-group" ng-class="{'error': studentForm.gpa.$invalid && studentForm.gpa.$touched}">
+                    <label for="gpa">GPA (0-4.0):</label>
+                    <input type="number" id="gpa" name="gpa" ng-model="newStudent.gpa"
+                        placeholder="Enter GPA" required min="0" max="4.0" step="0.1" class="form-input">
+                    <span class="error-message" ng-show="studentForm.gpa.$error.required && studentForm.gpa.$touched">
+                        GPA is required
+                    </span>
+                    <span class="error-message" ng-show="studentForm.gpa.$error.min && studentForm.gpa.$touched">
+                        GPA must be at least 0
+                    </span>
+                    <span class="error-message" ng-show="studentForm.gpa.$error.max && studentForm.gpa.$touched">
+                        GPA cannot exceed 4.0
+                    </span>
+                </div>
+
+                <!-- Date of Birth Field -->
+                <div class="form-group" ng-class="{'error': studentForm.dob.$invalid && studentForm.dob.$touched}">
+                    <label for="dob">Date of Birth:</label>
+                    <input type="date" id="dob" name="dob" ng-model="newStudent.dob" required class="form-input">
+                    <span class="error-message" ng-show="studentForm.dob.$error.required && studentForm.dob.$touched">
+                        Date of birth is required
+                    </span>
+                </div>
+
+                <!-- Address Field -->
+                <div class="form-group" ng-class="{'error': studentForm.address.$invalid && studentForm.address.$touched}">
+                    <label for="address">Address:</label>
+                    <textarea id="address" name="address" ng-model="newStudent.address"
+                        placeholder="Enter address" required minlength="5" maxlength="200" class="form-input" rows="3"></textarea>
+                    <span class="error-message" ng-show="studentForm.address.$error.required && studentForm.address.$touched">
+                        Address is required
+                    </span>
+                    <span class="error-message" ng-show="studentForm.address.$error.minlength && studentForm.address.$touched">
+                        Address must be at least 5 characters
+                    </span>
+                </div>
+
+                <!-- Form Actions -->
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary" ng-disabled="!studentForm.$valid" ng-click="onSubmit()">
+                        Add Student
+                    </button>
+                    <button type="reset" class="btn btn-secondary" ng-click="resetForm()">
+                        Clear Form
+                    </button>
+                </div>
+
+                <!-- Form Status -->
+                <div class="form-status">
+                    <p ng-show="studentForm.$valid" class="valid-message">✓ Form is valid</p>
+                    <p ng-show="!studentForm.$valid" class="invalid-message">✗ Form has errors</p>
+                </div>
+            </form>
+        </div>
+
+        <!-- LIST SECTION -->
+        <div class="list-section">
+            <h2>Students List</h2>
+
+            <!-- Search and Filter -->
+            <div class="search-filter">
+                <input type="text" ng-model="searchStudent" placeholder="Search by name or email..." class="search-input">
+                <select ng-model="filterClass" class="filter-select">
+                    <option value="">All Classes</option>
+                    <option value="10th">Class 10th</option>
+                    <option value="11th">Class 11th</option>
+                    <option value="12th">Class 12th</option>
+                </select>
+                <span class="result-count">
+                    Total: {{(students | filter:searchStudent | filter:filterByClass).length}} students
+                </span>
+            </div>
+
+            <!-- No Data -->
+            <div ng-show="students.length === 0" class="no-data">
+                <p>No students added yet. Add a student to see them here.</p>
+            </div>
+
+            <!-- Table -->
+            <table ng-show="students.length > 0" class="students-table">
+                <thead>
+                    <tr>
+                        <th>Roll No</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Class</th>
+                        <th>GPA</th>
+                        <th>DOB</th>
+                        <th>Address</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="student in students | filter:searchStudent | filter:filterByClass" class="student-row">
+                        <td>{{student.rollNo}}</td>
+                        <td>{{student.name}}</td>
+                        <td>{{student.email}}</td>
+                        <td>{{student.phone}}</td>
+                        <td>{{student.class}}</td>
+                        <td>
+                            <span ng-class="{'high-gpa': student.gpa >= 3.5, 'medium-gpa': student.gpa >= 3 && student.gpa < 3.5, 'low-gpa': student.gpa < 3}">
+                                {{student.gpa | number:'1.2-2'}}
+                            </span>
+                        </td>
+                        <td>{{student.dob | date:'dd-MMM-yyyy'}}</td>
+                        <td class="address-cell">{{student.address}}</td>
+                        <td class="actions-cell">
+                            <button class="btn btn-edit" ng-click="editStudent(student)" title="Edit student">Edit</button>
+                            <button class="btn btn-delete" ng-click="deleteStudent(student.rollNo)" title="Delete student">Delete</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- STATISTICS SECTION -->
+        <div class="stats-section">
+            <h2>Statistics</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>Total Students</h3>
+                    <p class="stat-value">{{students.length}}</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Average GPA</h3>
+                    <p class="stat-value">{{getAverageGPA() | number:'1.2-2'}}</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Highest GPA</h3>
+                    <p class="stat-value">{{getHighestGPA() | number:'1.2-2'}}</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Lowest GPA</h3>
+                    <p class="stat-value">{{getLowestGPA() | number:'1.2-2'}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div class="notification" ng-show="notification.show" ng-class="'notification-' + notification.type">
+        {{notification.message}}
+    </div>
+
+    <!-- AngularJS Scripts - All Combined -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script>
+// =====================
+// APPLICATION SETUP
+// =====================
+
+var app = angular.module('studentApp', []);
+
+// =====================
+// CONTROLLER
+// =====================
+
+app.controller('StudentController', ['$scope', '$timeout', function($scope, $timeout) {
+
+    // Initialize variables
+    $scope.students = [];
+    $scope.newStudent = {};
+    $scope.searchStudent = '';
+    $scope.filterClass = '';
+    $scope.notification = {
+        show: false,
+        message: '',
+        type: 'success'
+    };
+
+    // =====================
+    // FORM FUNCTIONS
+    // =====================
+
+    $scope.addStudent = function() {
+        if ($scope.studentForm.$valid) {
+            var student = angular.copy($scope.newStudent);
+            var isDuplicate = $scope.students.some(function(s) {
+                return s.rollNo === student.rollNo;
+            });
+
+            if (isDuplicate) {
+                $scope.showNotification('Roll number already exists!', 'error');
+                return;
+            }
+
+            $scope.students.push(student);
+            $scope.showNotification('Student "' + student.name + '" added successfully!', 'success');
+            $scope.resetForm();
+        }
+    };
+
+    $scope.editStudent = function(student) {
+        $scope.newStudent = angular.copy(student);
+        $scope.isEditing = true;
+        window.scrollTo(0, 0);
+    };
+
+    $scope.deleteStudent = function(rollNo) {
+        if (window.confirm('Are you sure you want to delete this student?')) {
+            $scope.students = $scope.students.filter(function(student) {
+                return student.rollNo !== rollNo;
+            });
+            $scope.showNotification('Student deleted successfully!', 'success');
+        }
+    };
+
+    $scope.resetForm = function() {
+        $scope.newStudent = {};
+        $scope.studentForm.$setPristine();
+        $scope.studentForm.$setUntouched();
+        $scope.isEditing = false;
+    };
+
+    $scope.onSubmit = function() {
+        if ($scope.studentForm.$valid) {
+            $scope.addStudent();
+        }
+    };
+
+    $scope.filterByClass = function(student) {
+        if (!$scope.filterClass) {
+            return true;
+        }
+        return student.class === $scope.filterClass;
+    };
+
+    // =====================
+    // STATISTICS FUNCTIONS
+    // =====================
+
+    $scope.getAverageGPA = function() {
+        if ($scope.students.length === 0) return 0;
+        var total = $scope.students.reduce(function(sum, student) {
+            return sum + parseFloat(student.gpa || 0);
+        }, 0);
+        return total / $scope.students.length;
+    };
+
+    $scope.getHighestGPA = function() {
+        if ($scope.students.length === 0) return 0;
+        return Math.max.apply(null, $scope.students.map(function(s) {
+            return parseFloat(s.gpa || 0);
+        }));
+    };
+
+    $scope.getLowestGPA = function() {
+        if ($scope.students.length === 0) return 0;
+        return Math.min.apply(null, $scope.students.map(function(s) {
+            return parseFloat(s.gpa || 0);
+        }));
+    };
+
+    // =====================
+    // NOTIFICATION FUNCTIONS
+    // =====================
+
+    $scope.showNotification = function(message, type) {
+        $scope.notification = {
+            show: true,
+            message: message,
+            type: type || 'success'
+        };
+        $timeout(function() {
+            $scope.notification.show = false;
+        }, 3000);
+    };
+
+    // =====================
+    // SAMPLE DATA
+    // =====================
+
+    $scope.loadSampleData = function() {
+        $scope.students = [
+            { rollNo: 1, name: 'Raj Kumar', email: 'raj.kumar@example.com', phone: '9876543210', class: '10th', gpa: 3.8, dob: '2008-05-15', address: '123 Main Street, New Delhi' },
+            { rollNo: 2, name: 'Priya Singh', email: 'priya.singh@example.com', phone: '9123456789', class: '11th', gpa: 3.9, dob: '2007-08-22', address: '456 Oak Avenue, Mumbai' },
+            { rollNo: 3, name: 'Amit Patel', email: 'amit.patel@example.com', phone: '8765432109', class: '12th', gpa: 3.5, dob: '2006-03-10', address: '789 Pine Road, Bangalore' },
+            { rollNo: 4, name: 'Neha Sharma', email: 'neha.sharma@example.com', phone: '9234567890', class: '10th', gpa: 3.7, dob: '2008-12-05', address: '321 Elm Street, Pune' }
+        ];
+        $scope.showNotification('Sample data loaded!', 'success');
+    };
+
+}]);
+
+// =====================
+// CUSTOM FILTERS
+// =====================
+
+app.filter('phoneFormat', function() {
+    return function(input) {
+        if (!input) return input;
+        var phone = input.toString().replace(/\D/g, '');
+        if (phone.length !== 10) return input;
+        return '(' + phone.substring(0, 3) + ') ' + phone.substring(3, 6) + '-' + phone.substring(6);
+    };
+});
+
+app.filter('gpaStatus', function() {
+    return function(gpa) {
+        if (gpa >= 3.7) return 'Excellent';
+        if (gpa >= 3.3) return 'Very Good';
+        if (gpa >= 3.0) return 'Good';
+        if (gpa >= 2.5) return 'Satisfactory';
+        return 'Needs Improvement';
+    };
+});
+    </script>
+</body>
+</html>

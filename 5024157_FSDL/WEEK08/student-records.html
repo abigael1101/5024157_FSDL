@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html ng-app="studentApp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Records Management - AngularJS</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body ng-controller="StudentController" class="container">
+    <header>
+        <h1>📚 Student Records Management System</h1>
+        <p class="subtitle">Manage student information with validation and events</p>
+    </header>
+
+    <div class="main-content">
+        <!-- Form Section -->
+        <div class="form-section">
+            <h2>Add New Student</h2>
+            <form name="studentForm" class="student-form" ng-submit="addStudent()" novalidate>
+
+                <!-- Roll Number Field -->
+                <div class="form-group" ng-class="{'error': studentForm.rollNo.$invalid && studentForm.rollNo.$touched}">
+                    <label for="rollNo">Roll Number:</label>
+                    <input
+                        type="number"
+                        id="rollNo"
+                        name="rollNo"
+                        ng-model="newStudent.rollNo"
+                        placeholder="Enter roll number"
+                        required
+                        min="1"
+                        class="form-input">
+                    <span class="error-message" ng-show="studentForm.rollNo.$error.required && studentForm.rollNo.$touched">
+                        Roll number is required
+                    </span>
+                    <span class="error-message" ng-show="studentForm.rollNo.$error.min && studentForm.rollNo.$touched">
+                        Roll number must be greater than 0
+                    </span>
+                </div>
+
+                <!-- Name Field -->
+                <div class="form-group" ng-class="{'error': studentForm.name.$invalid && studentForm.name.$touched}">
+                    <label for="name">Full Name:</label>
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        ng-model="newStudent.name"
+                        placeholder="Enter full name"
+                        required
+                        minlength="3"
+                        maxlength="50"
+                        class="form-input">
+                    <span class="error-message" ng-show="studentForm.name.$error.required && studentForm.name.$touched">
+                        Name is required
+                    </span>
+                    <span class="error-message" ng-show="studentForm.name.$error.minlength && studentForm.name.$touched">
+                        Name must be at least 3 characters
+                    </span>
+                    <span class="error-message" ng-show="studentForm.name.$error.maxlength && studentForm.name.$touched">
+                        Name cannot exceed 50 characters
+                    </span>
+                </div>
+
+                <!-- Email Field -->
+                <div class="form-group" ng-class="{'error': studentForm.email.$invalid && studentForm.email.$touched}">
+                    <label for="email">Email:</label>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        ng-model="newStudent.email"
+                        placeholder="Enter email address"
+                        required
+                        class="form-input">
+                    <span class="error-message" ng-show="studentForm.email.$error.required && studentForm.email.$touched">
+                        Email is required
+                    </span>
+                    <span class="error-message" ng-show="studentForm.email.$error.email && studentForm.email.$touched">
+                        Please enter a valid email address
+                    </span>
+                </div>
+
+                <!-- Phone Field -->
+                <div class="form-group" ng-class="{'error': studentForm.phone.$invalid && studentForm.phone.$touched}">
+                    <label for="phone">Phone Number:</label>
+                    <input
+                        type="tel"
+                        id="phone"
+                        name="phone"
+                        ng-model="newStudent.phone"
+                        placeholder="Enter phone number"
+                        required
+                        pattern="^\d{10}$"
+                        class="form-input">
+                    <span class="error-message" ng-show="studentForm.phone.$error.required && studentForm.phone.$touched">
+                        Phone number is required
+                    </span>
+                    <span class="error-message" ng-show="studentForm.phone.$error.pattern && studentForm.phone.$touched">
+                        Phone number must be exactly 10 digits
+                    </span>
+                </div>
+
+                <!-- Class Field -->
+                <div class="form-group" ng-class="{'error': studentForm.class.$invalid && studentForm.class.$touched}">
+                    <label for="class">Class:</label>
+                    <select
+                        id="class"
+                        name="class"
+                        ng-model="newStudent.class"
+                        required
+                        class="form-input">
+                        <option value="">-- Select Class --</option>
+                        <option value="10th">Class 10th</option>
+                        <option value="11th">Class 11th</option>
+                        <option value="12th">Class 12th</option>
+                    </select>
+                    <span class="error-message" ng-show="studentForm.class.$error.required && studentForm.class.$touched">
+                        Class selection is required
+                    </span>
+                </div>
+
+                <!-- Percentage/GPA Field -->
+                <div class="form-group" ng-class="{'error': studentForm.gpa.$invalid && studentForm.gpa.$touched}">
+                    <label for="gpa">GPA (0-4.0):</label>
+                    <input
+                        type="number"
+                        id="gpa"
+                        name="gpa"
+                        ng-model="newStudent.gpa"
+                        placeholder="Enter GPA"
+                        required
+                        min="0"
+                        max="4.0"
+                        step="0.1"
+                        class="form-input">
+                    <span class="error-message" ng-show="studentForm.gpa.$error.required && studentForm.gpa.$touched">
+                        GPA is required
+                    </span>
+                    <span class="error-message" ng-show="studentForm.gpa.$error.min && studentForm.gpa.$touched">
+                        GPA must be at least 0
+                    </span>
+                    <span class="error-message" ng-show="studentForm.gpa.$error.max && studentForm.gpa.$touched">
+                        GPA cannot exceed 4.0
+                    </span>
+                </div>
+
+                <!-- Date of Birth Field -->
+                <div class="form-group" ng-class="{'error': studentForm.dob.$invalid && studentForm.dob.$touched}">
+                    <label for="dob">Date of Birth:</label>
+                    <input
+                        type="date"
+                        id="dob"
+                        name="dob"
+                        ng-model="newStudent.dob"
+                        required
+                        class="form-input">
+                    <span class="error-message" ng-show="studentForm.dob.$error.required && studentForm.dob.$touched">
+                        Date of birth is required
+                    </span>
+                </div>
+
+                <!-- Address Field -->
+                <div class="form-group" ng-class="{'error': studentForm.address.$invalid && studentForm.address.$touched}">
+                    <label for="address">Address:</label>
+                    <textarea
+                        id="address"
+                        name="address"
+                        ng-model="newStudent.address"
+                        placeholder="Enter address"
+                        required
+                        minlength="5"
+                        maxlength="200"
+                        class="form-input"
+                        rows="3"></textarea>
+                    <span class="error-message" ng-show="studentForm.address.$error.required && studentForm.address.$touched">
+                        Address is required
+                    </span>
+                    <span class="error-message" ng-show="studentForm.address.$error.minlength && studentForm.address.$touched">
+                        Address must be at least 5 characters
+                    </span>
+                </div>
+
+                <!-- Form Actions -->
+                <div class="form-actions">
+                    <button
+                        type="submit"
+                        class="btn btn-primary"
+                        ng-disabled="!studentForm.$valid"
+                        ng-click="onSubmit()">
+                        Add Student
+                    </button>
+                    <button
+                        type="reset"
+                        class="btn btn-secondary"
+                        ng-click="resetForm()">
+                        Clear Form
+                    </button>
+                </div>
+
+                <!-- Form Status Display -->
+                <div class="form-status">
+                    <p ng-show="studentForm.$valid" class="valid-message">✓ Form is valid</p>
+                    <p ng-show="!studentForm.$valid" class="invalid-message">✗ Form has errors</p>
+                </div>
+            </form>
+        </div>
+
+        <!-- Students List Section -->
+        <div class="list-section">
+            <h2>Students List</h2>
+
+            <!-- Search and Filter -->
+            <div class="search-filter">
+                <input
+                    type="text"
+                    ng-model="searchStudent"
+                    placeholder="Search by name or email..."
+                    class="search-input">
+                <select ng-model="filterClass" class="filter-select">
+                    <option value="">All Classes</option>
+                    <option value="10th">Class 10th</option>
+                    <option value="11th">Class 11th</option>
+                    <option value="12th">Class 12th</option>
+                </select>
+                <span class="result-count">
+                    Total: {{(students | filter:searchStudent | filter:filterByClass).length}} students
+                </span>
+            </div>
+
+            <!-- No Students Message -->
+            <div ng-show="students.length === 0" class="no-data">
+                <p>No students added yet. Add a student to see them here.</p>
+            </div>
+
+            <!-- Students Table -->
+            <table ng-show="students.length > 0" class="students-table">
+                <thead>
+                    <tr>
+                        <th>Roll No</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Class</th>
+                        <th>GPA</th>
+                        <th>DOB</th>
+                        <th>Address</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="student in students | filter:searchStudent | filter:filterByClass" class="student-row">
+                        <td>{{student.rollNo}}</td>
+                        <td>{{student.name}}</td>
+                        <td>{{student.email}}</td>
+                        <td>{{student.phone}}</td>
+                        <td>{{student.class}}</td>
+                        <td>
+                            <span ng-class="{'high-gpa': student.gpa >= 3.5, 'medium-gpa': student.gpa >= 3 && student.gpa < 3.5, 'low-gpa': student.gpa < 3}">
+                                {{student.gpa | number:'1.2-2'}}
+                            </span>
+                        </td>
+                        <td>{{student.dob | date:'dd-MMM-yyyy'}}</td>
+                        <td class="address-cell">{{student.address}}</td>
+                        <td class="actions-cell">
+                            <button
+                                class="btn btn-edit"
+                                ng-click="editStudent(student)"
+                                title="Edit student">
+                                Edit
+                            </button>
+                            <button
+                                class="btn btn-delete"
+                                ng-click="deleteStudent(student.rollNo)"
+                                title="Delete student">
+                                Delete
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Statistics Section -->
+        <div class="stats-section">
+            <h2>Statistics</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>Total Students</h3>
+                    <p class="stat-value">{{students.length}}</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Average GPA</h3>
+                    <p class="stat-value">{{getAverageGPA() | number:'1.2-2'}}</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Highest GPA</h3>
+                    <p class="stat-value">{{getHighestGPA() | number:'1.2-2'}}</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Lowest GPA</h3>
+                    <p class="stat-value">{{getLowestGPA() | number:'1.2-2'}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success/Error Messages -->
+    <div class="notification" ng-show="notification.show" ng-class="'notification-' + notification.type">
+        {{notification.message}}
+    </div>
+
+    <!-- AngularJS Script -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

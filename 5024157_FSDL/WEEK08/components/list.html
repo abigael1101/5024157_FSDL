@@ -1,0 +1,74 @@
+<!-- List Component - list.html -->
+<div class="list-section">
+    <h2>Students List</h2>
+
+    <!-- Search and Filter -->
+    <div class="search-filter">
+        <input
+            type="text"
+            ng-model="searchStudent"
+            placeholder="Search by name or email..."
+            class="search-input">
+        <select ng-model="filterClass" class="filter-select">
+            <option value="">All Classes</option>
+            <option value="10th">Class 10th</option>
+            <option value="11th">Class 11th</option>
+            <option value="12th">Class 12th</option>
+        </select>
+        <span class="result-count">
+            Total: {{(students | filter:searchStudent | filter:filterByClass).length}} students
+        </span>
+    </div>
+
+    <!-- No Students Message -->
+    <div ng-show="students.length === 0" class="no-data">
+        <p>No students added yet. Add a student to see them here.</p>
+    </div>
+
+    <!-- Students Table -->
+    <table ng-show="students.length > 0" class="students-table">
+        <thead>
+            <tr>
+                <th>Roll No</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Class</th>
+                <th>GPA</th>
+                <th>DOB</th>
+                <th>Address</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="student in students | filter:searchStudent | filter:filterByClass" class="student-row">
+                <td>{{student.rollNo}}</td>
+                <td>{{student.name}}</td>
+                <td>{{student.email}}</td>
+                <td>{{student.phone}}</td>
+                <td>{{student.class}}</td>
+                <td>
+                    <span ng-class="{'high-gpa': student.gpa >= 3.5, 'medium-gpa': student.gpa >= 3 && student.gpa < 3.5, 'low-gpa': student.gpa < 3}">
+                        {{student.gpa | number:'1.2-2'}}
+                    </span>
+                </td>
+                <td>{{student.dob | date:'dd-MMM-yyyy'}}</td>
+                <td class="address-cell">{{student.address}}</td>
+                <td class="actions-cell">
+                    <button
+                        class="btn btn-edit"
+                        ng-click="editStudent(student)"
+                        title="Edit student">
+                        Edit
+                    </button>
+                    <button
+                        class="btn btn-delete"
+                        ng-click="deleteStudent(student.rollNo)"
+                        title="Delete student">
+                        Delete
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

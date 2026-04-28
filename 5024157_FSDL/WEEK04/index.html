@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Pro Dashboard</title>
+    <style>
+        /* --- CSS (Styling) --- */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            color: white;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            padding: 2rem;
+            border-radius: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        .search-box {
+            margin-bottom: 20px;
+        }
+
+        input {
+            padding: 10px;
+            border-radius: 20px;
+            border: none;
+            outline: none;
+            width: 60%;
+        }
+
+        button {
+            padding: 10px 20px;
+            border-radius: 20px;
+            border: none;
+            background: #ff7eb3;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #ff5277;
+        }
+
+        .weather-info { margin: 20px 0; }
+
+        .forecast-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            gap: 10px;
+            overflow-x: auto;
+        }
+
+        .day-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px;
+            border-radius: 10px;
+            min-width: 60px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Weather Forecast</h2>
+
+        <div class="search-box">
+            <input type="text" id="cityInput" placeholder="Enter city name...">
+            <button id="getWeatherBtn">Search</button>
+        </div>
+
+        <div id="displayArea">
+            <p>Enter a city to see the magic!</p>
+        </div>
+
+        <div class="forecast-container" id="forecastArea"></div>
+    </div>
+
+    <script>
+        /* --- JAVASCRIPT (Logic) --- */
+
+        // 1. CLASS (A blueprint for weather data)
+        class WeatherData {
+            constructor(city, temp, status) {
+                this.city = city;
+                this.temp = temp;
+                this.status = status;
+            }
+        }
+
+        // 2. VARIABLES
+        const btn = document.getElementById('getWeatherBtn');
+        const input = document.getElementById('cityInput');
+        const display = document.getElementById('displayArea');
+        const forecast = document.getElementById('forecastArea');
+
+        // 3. FUNCTION & EVENT
+        btn.addEventListener('click', function() {
+            const cityName = input.value;
+
+            // 4. CONDITIONALS
+            if (cityName === "") {
+                alert("Error: Please enter a city name!");
+            } else {
+                updateWeather(cityName);
+            }
+        });
+
+        function updateWeather(city) {
+            // 5. OPERATORS (Generating a random temperature)
+            const randomBase = Math.random() * 40;
+            const currentTemp = Math.floor(randomBase); // Mathematical operator
+
+            // 6. OBJECT (Creating an instance of the class)
+            const today = new WeatherData(city, currentTemp, "Clear Skies");
+
+            display.innerHTML = `
+                <div class="weather-info">
+                    <h3>${today.city}</h3>
+                    <h1 style="font-size: 3rem;">${today.temp}°C</h1>
+                    <p>${today.status}</p>
+                </div>
+            `;
+
+            // 7. LOOPS (Generating 5 days of forecast)
+            forecast.innerHTML = ""; // Clear old forecast
+            const weekDays = ["Mon", "Tue", "Wed", "Thu", "Fri"];
+
+            for (let i = 0; i < weekDays.length; i++) {
+                // Using operators to vary the temp for the loop
+                let nextTemp = today.temp + (i + 1);
+
+                let dayCard = document.createElement('div');
+                dayCard.className = "day-card";
+                dayCard.innerHTML = `
+                    <small>${weekDays[i]}</small>
+                    <div style="font-weight:bold">${nextTemp}°</div>
+                `;
+                forecast.appendChild(dayCard);
+            }
+        }
+    </script>
+</body>
+</html>

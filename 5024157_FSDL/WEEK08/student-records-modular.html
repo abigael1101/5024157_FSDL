@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html ng-app="studentApp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Records Management - AngularJS (Modular Structure)</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body ng-controller="StudentController" class="container">
+    <header>
+        <h1>📚 Student Records Management System</h1>
+        <p class="subtitle">Manage student information with validation and events (Modular Architecture)</p>
+    </header>
+
+    <div class="main-content">
+        <!-- Form Component -->
+        <ng-include src="'components/form.html'"></ng-include>
+
+        <!-- List Component -->
+        <ng-include src="'components/list.html'"></ng-include>
+
+        <!-- Stats Component -->
+        <ng-include src="'components/stats.html'"></ng-include>
+    </div>
+
+    <!-- Success/Error Messages -->
+    <div class="notification" ng-show="notification.show" ng-class="'notification-' + notification.type">
+        {{notification.message}}
+    </div>
+
+    <!-- AngularJS Scripts - Modular Structure -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+
+    <!-- Application Configuration -->
+    <script src="config/module.js"></script>
+
+    <!-- Services -->
+    <script src="services/studentService.js"></script>
+
+    <!-- Controllers -->
+    <script src="controllers/StudentController.js"></script>
+
+    <!-- Filters -->
+    <script src="filters/customFilters.js"></script>
+</body>
+</html>
